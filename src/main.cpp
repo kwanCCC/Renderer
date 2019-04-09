@@ -8,6 +8,7 @@ int main(int argc, char **argv)
     TGAImage image(100, 100, TGAImage::RGB);
     image.set(52, 41, red);
     image.flip_vertically();
+    image.line(25, 25, 75, 75, white);
     image.write_tga_file("output.tga");
     return 0;
 }

@@ -425,3 +425,13 @@ bool TGAImage::scale(int w, int h)
     height = h;
     return true;
 }
+
+void TGAImage::line(int x0, int y0, int x1, int y1, TGAColor color)
+{
+    for (float t = 0.; t < 1.; t += .01)
+    {
+        int x = x0 + (x1 - x0) * t;
+        int y = y0 + (y1 - y0) * t;
+        set(x, y, color);
+    }
+}
