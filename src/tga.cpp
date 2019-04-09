@@ -4,6 +4,7 @@
 #include <time.h>
 #include <math.h>
 #include "tga.h"
+#include <algorithm>
 
 TGAImage::TGAImage() : data(NULL), width(0), height(0), bytespp(0)
 {
@@ -428,7 +429,7 @@ bool TGAImage::scale(int w, int h)
 
 void TGAImage::line(int x0, int y0, int x1, int y1, TGAColor color)
 {
-    for (float t = 0.; t < 1.; t += .01)
+    for (double t = 0.; t < 1.; t += .001)
     {
         int x = x0 + (x1 - x0) * t;
         int y = y0 + (y1 - y0) * t;
