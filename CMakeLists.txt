@@ -6,6 +6,7 @@ file(GLOB HEAD_FILES ${PROJECT_SOURCE_DIR}/include/*.h)
 
 set(CMAKE_CXX_FLAGS "-g -Wall")
 set(CMAKE_CXX_FLAGS "-std=c++17")
+set(CMAKE_CXX_FLAGS "-g -pg -O3")
 
 # set(SOURCES
 #     src/tga.cpp

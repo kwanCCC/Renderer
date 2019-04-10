@@ -377,3 +377,6 @@ void TGAImage::line(int x0, int y0, int x1, int y1, TGAColor color) {
     }
   }
 }
+
+void TGAImage::anti_aliasing_line(int x0, int y0, int x1, int y1,
+                                  TGAColor color) {}
