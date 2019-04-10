@@ -88,4 +88,12 @@ class TGAImage {
   void anti_aliasing_line(int x0, int y0, int x1, int y1, TGAColor color);
 };
 
+int _ipart(float f) { return (int)f; }
+
+int _round(float f) { return _ipart(f + 0.5); }
+
+float _fpart(float f) { return f - (long)f; }
+
+float _rfpart(float f) { return 1.0 - _fpart(f); }
+
 #endif  //_TGA_H_

@@ -381,5 +381,20 @@ void TGAImage::line(int x0, int y0, int x1, int y1, TGAColor color) {
 // https://zh.wikipedia.org/wiki/%E5%90%B4%E5%B0%8F%E6%9E%97%E7%9B%B4%E7%BA%BF%E7%AE%97%E6%B3%95
 void TGAImage::anti_aliasing_line(int x0, int y0, int x1, int y1,
                                   TGAColor color) {
-                                    
-                                  }
+  bool steep = abs(y1 - y0) > abs(x1 - x0);
+  if (steep) {
+    std::swap(x0, y0);
+    std::swap(x1, y1);
+  }
+  if (x0 > x1) {
+    std::swap(x0, x1);
+    std::swap(y0, y1);
+  }
+  int delta_X = x1 - x0;
+  int delta_Y = abs(y1 - y0);
+  float delta_error = delta_Y / (float)delta_X;
+  int xend = _round(x1);
+  int yend = _round(y1) + delta_error * (xend - x0);
+  int xgap = _rfpart(x1 + 0.5);
+  
+}

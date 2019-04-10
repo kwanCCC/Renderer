@@ -6,8 +6,7 @@ const TGAColor red = TGAColor(122, 0, 0, 255);
 int main(int argc, char **argv) {
   TGAImage image(500, 500, TGAImage::RGB);
   image.line(100, 100, 400, 400, red);
-  // image.flip_horizontally();
-  // image.flip_vertically();
+  image.flip_horizontally();
   image.write_tga_file("output.tga");
   return 0;
 }
