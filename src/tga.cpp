@@ -427,12 +427,44 @@ bool TGAImage::scale(int w, int h)
     return true;
 }
 
+// https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
 void TGAImage::line(int x0, int y0, int x1, int y1, TGAColor color)
 {
+    bool steep = abs(y1 - y0) > abs(x1 - x0);
+    if (steep)
+    {
+        std::swap(x0, y0);
+        std::swap(x1, y1);
+    }
+    if (x0 > x1)
+    {
+        std::swap(x0, x1);
+        std::swap(y0, y1);
+    }
+    int delta_X = x1 - x0;
+    int delta_Y = abs(y1 - y0);
+    int error = delta_X >> 1;
+    int y_step;
+    int y = y0;
+    if (y0 < y1)
+        y_step = 1;
+    else
+        y_step = -1;
     for (int x = x0; x <= x1; x++)
     {
-        float t = (x - x0) / (float)(x1 - x0);
-        int y = y0 * (1. - t) + y1 * t;
-        set(x, y, color);
+        if (steep)
+        {
+            set(y, x, color);
+        }
+        else
+        {
+            set(x, y, color);
+        }
+        error = x - error;
+        if (error < 0)
+        {
+            y += y_step;
+            error += delta_X;
+        }
     }
 }
