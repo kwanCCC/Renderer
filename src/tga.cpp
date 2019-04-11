@@ -378,6 +378,14 @@ void TGAImage::line(int x0, int y0, int x1, int y1, TGAColor color) {
   }
 }
 
+int tga_ipart(float f) { return (int)f; }
+
+int tga_round(float f) { return tga_ipart(f + 0.5); }
+
+float tga_fpart(float f) { return f - (long)f; }
+
+float tga_rfpart(float f) { return 1.0 - tga_fpart(f); }
+
 // https://zh.wikipedia.org/wiki/%E5%90%B4%E5%B0%8F%E6%9E%97%E7%9B%B4%E7%BA%BF%E7%AE%97%E6%B3%95
 void TGAImage::anti_aliasing_line(float x0, float y0, float x1, float y1,
                                   TGAColor color) {
@@ -392,16 +400,42 @@ void TGAImage::anti_aliasing_line(float x0, float y0, float x1, float y1,
   }
   float delta_X = x1 - x0;
   float delta_Y = abs(y1 - y0);
-  float delta_error = delta_Y / (float)delta_X;
-  // end point 1
+  float delta_error = delta_Y / delta_X;
+  // end point 0
   float x0end = trunc(x0 + .5);
-  float y0end = y1 + delta_error * (x0end - x1);
-  float x0gap = _rfpart(x0 + .5);
-
-  int xend = _round(x1);
-  int yend = _round(y1) + delta_error * (xend - x0);
-  int xgap = _rfpart(x1 + 0.5);
-  int xpx11 = xend;
-  int ypx11 = _ipart(ye)
-  //
+  float y0end = y0 + delta_error * (x0end - x0);
+  float x0gap = tga_rfpart(x0 + .5);
+  int x0endI = tga_ipart(x0);
+  int y0endI = tga_ipart(y0end);
+  char alph = color.a;
+  TGAColor _xb0 = color;
+  _xb0.a = tga_rfpart(y0end) * x0gap * alph;
+  set(x0endI, y0endI, _xb0);
+  TGAColor _xb1 = color;
+  _xb1.a = tga_fpart(y0end) * x0gap * alph;
+  set(x0endI, y0endI + 1, _xb1);
+  y0end += delta_error;
+  // end point 1
+  float x1end = trunc(x1 + .5);
+  float y1end = y1 + delta_error * (x1end - x1);
+  float x1gap = tga_rfpart(x1 + .5);
+  int x1endI = tga_ipart(x1);
+  int y1endI = tga_ipart(y1);
+  TGAColor _xe0 = color;
+  _xe0.a = tga_rfpart(y1end) * x1gap * alph;
+  set(x1endI, y1endI, _xe0);
+  TGAColor _xe1 = color;
+  _xe1.a = tga_fpart(y1end) * alph;
+  set(x1endI, y1endI + 1, _xe1);
+  // loop
+  for (int x = x0endI + 1; x <= x1endI - 1; x++) {
+    TGAColor _xi0 = color;
+    _xi0.a = tga_rfpart(y0end) * alph;
+    int yi = tga_ipart(y0end);
+    set(x, yi, _xi0);
+    TGAColor _xi1 = color;
+    _xi1.a = tga_fpart(y0end) * alph;
+    set(x, yi + 1, _xi1);
+    y0end += delta_error;
+  }
 }
