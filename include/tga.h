@@ -85,7 +85,8 @@ class TGAImage {
   unsigned char *buffer();
   void clear();
   void line(int x0, int y0, int x1, int y1, TGAColor color);
-  void anti_aliasing_line(int x0, int y0, int x1, int y1, TGAColor color);
+  void anti_aliasing_line(float x0, float y0, float x1, float y1,
+                          TGAColor color);
 };
 
 int _ipart(float f) { return (int)f; }
