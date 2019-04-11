@@ -14,15 +14,15 @@ int main(int argc, char **argv) {
 }
 
 void aliased_line() {
-  TGAImage image(500, 500, TGAImage::RGB);
-  image.line(100, 100, 400, 400, red);
+  TGAImage image(100, 100, TGAImage::RGB);
+  image.line(50, 10, 60, 90, red);
   image.flip_horizontally();
   image.write_tga_file("output_aliased.tga");
 }
 
 void anti_aliased_line() {
   TGAImage image(500, 500, TGAImage::RGBA);
-  image.anti_aliasing_line(100.0f, 100.0f, 400.0f, 400.0f, red);
+  image.anti_aliasing_line(50.3, 10, 60, 90.1, red);
   image.flip_horizontally();
   image.write_tga_file("output_anti_aliased.tga");
 }
