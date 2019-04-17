@@ -410,10 +410,16 @@ void TGAImage::anti_aliasing_line(float x0, float y0, float x1, float y1,
   char alph = color.a;
   TGAColor _xb0 = color;
   _xb0.a = tga_rfpart(y0end) * x0gap * alph;
-  set(x0endI, y0endI, _xb0);
+
   TGAColor _xb1 = color;
   _xb1.a = tga_fpart(y0end) * x0gap * alph;
-  set(x0endI, y0endI + 1, _xb1);
+  if (steep) {
+    
+  } else {
+    set(x0endI, y0endI, _xb0);
+    set(x0endI, y0endI + 1, _xb1);
+  }
+
   y0end += delta_error;
   // end point 1
   float x1end = trunc(x1 + .5);
@@ -423,19 +429,25 @@ void TGAImage::anti_aliasing_line(float x0, float y0, float x1, float y1,
   int y1endI = tga_ipart(y1);
   TGAColor _xe0 = color;
   _xe0.a = tga_rfpart(y1end) * x1gap * alph;
-  set(x1endI, y1endI, _xe0);
   TGAColor _xe1 = color;
   _xe1.a = tga_fpart(y1end) * alph;
+
+  set(x1endI, y1endI, _xe0);
   set(x1endI, y1endI + 1, _xe1);
   // loop
   for (int x = x0endI + 1; x <= x1endI - 1; x++) {
     TGAColor _xi0 = color;
     _xi0.a = tga_rfpart(y0end) * alph;
     int yi = tga_ipart(y0end);
-    set(x, yi, _xi0);
     TGAColor _xi1 = color;
     _xi1.a = tga_fpart(y0end) * alph;
-    set(x, yi + 1, _xi1);
+    if (steep) {
+      set(yi, x, _xi0);
+      set(yi + 1, x, _xi1);
+    } else {
+      set(x, yi, _xi0);
+      set(x, yi + 1, _xi1);
+    }
     y0end += delta_error;
   }
 }
