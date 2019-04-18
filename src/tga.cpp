@@ -414,7 +414,8 @@ void TGAImage::anti_aliasing_line(float x0, float y0, float x1, float y1,
   TGAColor _xb1 = color;
   _xb1.a = tga_fpart(y0end) * x0gap * alph;
   if (steep) {
-    
+    set(y0endI, x0endI, _xb0);
+    set(y0endI + 1, x0endI, _xb1);
   } else {
     set(x0endI, y0endI, _xb0);
     set(x0endI, y0endI + 1, _xb1);
@@ -432,8 +433,14 @@ void TGAImage::anti_aliasing_line(float x0, float y0, float x1, float y1,
   TGAColor _xe1 = color;
   _xe1.a = tga_fpart(y1end) * alph;
 
-  set(x1endI, y1endI, _xe0);
-  set(x1endI, y1endI + 1, _xe1);
+  if (steep) {
+    set(y1endI, x1endI, _xe0);
+    set(y1endI + 1, x1endI, _xe1);
+  } else {
+    set(x1endI, y1endI, _xe0);
+    set(x1endI, y1endI + 1, _xe1);
+  }
+
   // loop
   for (int x = x0endI + 1; x <= x1endI - 1; x++) {
     TGAColor _xi0 = color;
