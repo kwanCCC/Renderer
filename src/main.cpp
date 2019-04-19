@@ -70,8 +70,12 @@ float rfPartOfNumber(float x) { return 1 - fPartOfNumber(x); }
 // 0<=brightness<=1. We can use your own library
 // to draw on screen
 void drawPixel(int x, int y, float brightness) {
+  // 255,192,203
   int c = 255 * brightness;
-  SDL_SetRenderDrawColor(pRenderer, c, c, c, 255);
+  int r = 255 * brightness;
+  int g = 192 * brightness;
+  int b = 203 * brightness;
+  SDL_SetRenderDrawColor(pRenderer, r, g, b, 255);
   SDL_RenderDrawPoint(pRenderer, x, y);
 }
 
@@ -144,7 +148,7 @@ int sdl() {
     SDL_RenderClear(pRenderer);
 
     // draws a black AALine
-    drawAALine(80, 200, 550, 150);
+    drawAALine(80, 10, 550, 150);
 
     // show the window
     SDL_RenderPresent(pRenderer);
