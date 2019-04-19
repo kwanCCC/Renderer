@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include "SDL2/SDL.h"
 
 TGAImage::TGAImage() : data(NULL), width(0), height(0), bytespp(0) {}
 
